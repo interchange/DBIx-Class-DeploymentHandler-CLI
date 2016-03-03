@@ -141,6 +141,26 @@ sub schema_version {
     return $dh->schema_version;
 }
 
+=head2 custom_upgrade_directory
+
+Returns custom upgrade directory if possible.
+
+=cut
+
+sub custom_upgrade_directory {
+    my $self = shift;
+    my $dh = $self->_dh_object;
+
+    my $db_version = $self->database_version;
+    my $schema_version = $self->schema_version;
+
+    unless ($schema_version == $db_version + 1) {
+        die "Schema version $schema_version needs to be one version ahead of database version $db_version.";
+    }
+
+    return "sql/_common/upgrade/${db_version}-${schema_version}";
+}
+
 =head2 prepare_version_storage
 
 =cut
