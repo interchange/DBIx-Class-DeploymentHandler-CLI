@@ -24,4 +24,12 @@ WriteMakefile(
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'DBIx-Class-DeploymentHandler-CLI-*' },
+
+    META_MERGE        => {
+        resources => {
+            repository  => 'https://github.com/interchange/DBIx-Class-DeploymentHandler-CLI.git',
+            bugtracker => 'https://github.com/interchange/DBIx-Class-DeploymentHandler-CLI/issues',
+            IRC => 'irc://irc.freenode.net/#interchange',
+        },
+    },
 );
