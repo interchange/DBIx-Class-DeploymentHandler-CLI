@@ -168,8 +168,6 @@ sub custom_upgrade_directory {
 sub prepare_version_storage {
     my $self = shift;
 
-    warn "Preparing version storage.";
-
     my $dh = $self->_dh_object;
 
     $dh->prepare_version_storage_install;
@@ -182,8 +180,6 @@ sub prepare_version_storage {
 
 sub install_version_storage {
     my $self = shift;
-
-    warn "Installing version storage\n";
 
     my $dh = $self->_dh_object;
 
