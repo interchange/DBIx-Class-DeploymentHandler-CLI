@@ -63,6 +63,12 @@ has sql_translator_args => (
     default => sub { { add_drop_table => 0 } },
 );
 
+has args => (
+    isa => ArrayRef,
+    is => 'ro',
+    default => sub {[]},
+);
+
 =head2 run
 
 Determines method to be run.
@@ -73,8 +79,15 @@ sub run {
     my $self = shift;
     my $cmd;
 
-    if ($Script =~ /^dh-(.*?)$/) {
+    # check if we have commandline arguments
+    if (@{$self->args}) {
+        $cmd = $self->args->[0];
+    }
+    elsif ($Script =~ /^dh-(.*?)$/) {
         $cmd = $1;
+    }
+
+    if (defined $cmd) {
         $cmd =~ s/-/_/g;
 
         if ($self->can($cmd)) {
