@@ -24,14 +24,41 @@ our $VERSION = '0.001';
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
+This module provides an command line interface for
+L<DBIx::Class::DeploymentHandler>.
 
-Perhaps a little code snippet.
+A sample script using this module looks like:
 
+    #! /usr/bin/env perl
+
+    use strict;
+    use warnings;
+
+    use PerlDance::Schema;
     use DBIx::Class::DeploymentHandler::CLI;
 
-    my $foo = DBIx::Class::DeploymentHandler::CLI->new();
-    ...
+    my $schema = PerlDance::Schema->connect('perldance');
+
+    my $dh_cli = DBIx::Class::DeploymentHandler::CLI->new(
+        schema => $schema,
+        databases => 'MySQL',
+        args => \@ARGV,
+    );
+
+    if (my $ret = $dh_cli->run) {
+       print $ret, "\n";
+    }
+
+Let's assume that you name the script C<dh-cli>.
+
+Now you can call the module's methods through commandline
+parameters:
+
+    ./dh-cli prepare-version-storage
+    ./dh-cli install-version-storage
+
+It doesn't matter whether you use dashes (C< - >) or
+underscores (C< _ >) in the function name.
 
 =head1 ATTRIBUTES
 
