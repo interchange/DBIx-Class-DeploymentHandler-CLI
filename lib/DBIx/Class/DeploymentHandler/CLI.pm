@@ -33,14 +33,11 @@ Perhaps a little code snippet.
     my $foo = DBIx::Class::DeploymentHandler::CLI->new();
     ...
 
-=head1 EXPORT
+=head1 ATTRIBUTES
 
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
+=head2 schema
 
-=head1 SUBROUTINES/METHODS
-
-=head2 function1
+L<DBIx::Class::Schema> object. This parameter is B<required>.
 
 =cut
 
@@ -50,6 +47,15 @@ has schema => (
     required => 1,
 );
 
+=head2 databases
+
+Array reference with database names or single database
+name as a string. This parameter is B<required>.
+
+It is passed directly to L<DBIx::Class::DeploymentHandler>.
+
+=cut
+
 has databases => (
     isa     => Str | ArrayRef,
     is      => 'ro',
@@ -57,11 +63,29 @@ has databases => (
     required => 1,
 );
 
+=head2 sql_translator_args
+
+Hash reference with parameters for L<SQL::Translator>.
+
+Defaults to:
+
+    { add_drop_table => 0 }
+
+It is passed directly to L<DBIx::Class::DeploymentHandler>.
+
+=cut
+
 has sql_translator_args => (
     isa => HashRef,
     is => 'ro',
     default => sub { { add_drop_table => 0 } },
 );
+
+=head2 args
+
+Array reference with commandline parameters.
+
+=cut
 
 has args => (
     isa => ArrayRef,
