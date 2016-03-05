@@ -232,45 +232,15 @@ Stefan Hornburg (Racke), C<< <racke at linuxia.de> >>
 
 =head1 BUGS
 
-Please report any bugs or feature requests to C<bug-dbix-class-deploymenthandler-cli at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=DBIx-Class-DeploymentHandler-CLI>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
+Please report any bugs or feature requests at
+L<https://github.com/interchange/DBIx-Class-DeploymentHandler-CLI/issues>
 
-
-
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc DBIx::Class::DeploymentHandler::CLI
-
-
-You can also look for information at:
-
-=over 4
-
-=item * RT: CPAN's request tracker (report bugs here)
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=DBIx-Class-DeploymentHandler-CLI>
-
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/DBIx-Class-DeploymentHandler-CLI>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/DBIx-Class-DeploymentHandler-CLI>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/DBIx-Class-DeploymentHandler-CLI/>
-
-=back
-
+I will be notified, and then you'll automatically be notified of progress
+on your bug as I make changes.
 
 =head1 ACKNOWLEDGEMENTS
 
+None so far.
 
 =head1 LICENSE AND COPYRIGHT
 
