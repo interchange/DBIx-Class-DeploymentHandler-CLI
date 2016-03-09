@@ -238,6 +238,55 @@ sub install_version_storage {
     $dh->add_database_version( { version => 1 } );
 }
 
+=head2 prepare_upgrade
+
+=cut
+
+sub prepare_upgrade {
+    my $self = shift;
+
+    my $dh = $self->_dh_object;
+
+    my $db_version = $self->database_version;
+    my $schema_version = $self->schema_version;
+
+    unless ($schema_version == $db_version + 1) {
+        die "Schema version $schema_version needs to be one version ahead of database version $db_version for preparing upgrades.";
+    }
+
+    $dh->prepare_deploy;
+    $dh->prepare_upgrade(
+        {
+            from_version => $db_version,
+            to_version   => $schema_version,
+        }
+    );
+
+    return;
+}
+
+=head2 upgrade
+
+=cut
+
+sub upgrade {
+    my $self = shift;
+
+    my $dh = $self->_dh_object;
+
+    my $db_version = $self->database_version;
+    my $schema_version = $self->schema_version;
+
+    $dh->upgrade(
+        {
+            from_version => $db_version,
+            to_version   => $schema_version,
+        }
+    );
+
+    return;
+}
+
 sub _dh_object {
     my $self = shift;
     my $dh;
