@@ -170,13 +170,29 @@ Schema version: $schema_version};
 
 Retrieves schema version from database.
 
+Dies if version storage is missing from database.
+
+Returns 0 if version storage is present, but doesn't
+contain any records.
+
 =cut
 
 sub database_version {
     my $self = shift;
     my $dh = $self->_dh_object;
 
-    return $dh->database_version;
+    # check if version is present in the database
+    unless ($dh->version_storage_is_installed) {
+        die "Version storage isn't present in the database.";
+    }
+
+    my $version = $dh->database_version;
+
+    unless (defined $version) {
+        $version = 0;
+    }
+
+    return $version;
 }
 
 =head2 schema_version
