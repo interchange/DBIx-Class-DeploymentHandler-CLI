@@ -60,6 +60,16 @@ parameters:
 It doesn't matter whether you use dashes (C< - >) or
 underscores (C< _ >) in the function name.
 
+=head1 BEST PRACTICES
+
+It is often desirable to follow what DeploymentHandler is
+doing, thus we recommendend to turn on debugging in your
+C<dh-cli> script:
+
+    BEGIN {
+        $ENV{DBICDH_DEBUG} = 1;
+    }
+
 =head1 ATTRIBUTES
 
 =head2 schema
