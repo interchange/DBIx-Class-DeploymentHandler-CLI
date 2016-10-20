@@ -249,6 +249,8 @@ sub prepare_version_storage {
 
     $dh->prepare_version_storage_install;
     $dh->prepare_deploy;
+
+    return;
 }
 
 =head2 install_version_storage
@@ -262,6 +264,8 @@ sub install_version_storage {
 
     $dh->install_version_storage( { version => 1 } );
     $dh->add_database_version( { version => 1 } );
+
+    return;
 }
 
 =head2 prepare_upgrade
