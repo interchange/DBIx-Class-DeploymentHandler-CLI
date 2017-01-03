@@ -106,7 +106,20 @@ Hash reference with parameters for L<SQL::Translator>.
 
 Defaults to:
 
-    { add_drop_table => 0 }
+    {
+        add_drop_table => 0,
+        producer_args => {
+            mysql_version => 5,
+        },
+    }
+
+L<SQL::Translator> defaults to use data types for totally
+outdated versions of MySQL, thus we force the major version
+almost all running instances are using.
+
+This prevents you from ending up with an C<enum> MySQL data type
+for boolean columns in the schema instead of the C<boolean> one
+supported by MySQL 5.
 
 It is passed directly to L<DBIx::Class::DeploymentHandler>.
 
@@ -115,7 +128,12 @@ It is passed directly to L<DBIx::Class::DeploymentHandler>.
 has sql_translator_args => (
     isa => HashRef,
     is => 'ro',
-    default => sub { { add_drop_table => 0 } },
+    default => sub { {
+        add_drop_table => 0,
+        producer_args => {
+            mysql_version => 5,
+        },
+    } },
 );
 
 =head2 args
