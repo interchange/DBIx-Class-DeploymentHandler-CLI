@@ -5,7 +5,7 @@ NAME
 
 VERSION
 
-    Version 0.001
+    Version 0.002
 
 SYNOPSIS
 
@@ -44,6 +44,15 @@ SYNOPSIS
     It doesn't matter whether you use dashes ( - ) or underscores ( _ ) in
     the function name.
 
+BEST PRACTICES
+
+    It is often desirable to follow what DeploymentHandler is doing, thus
+    we recommendend to turn on debugging in your dh-cli script:
+
+        BEGIN {
+            $ENV{DBICDH_DEBUG} = 1;
+        }
+
 ATTRIBUTES
 
  schema
@@ -63,7 +72,20 @@ ATTRIBUTES
 
     Defaults to:
 
-        { add_drop_table => 0 }
+        {
+            add_drop_table => 0,
+            producer_args => {
+                mysql_version => 5,
+            },
+        }
+
+    SQL::Translator defaults to use data types for totally outdated
+    versions of MySQL, thus we force the major version almost all running
+    instances are using.
+
+    This prevents you from ending up with an enum MySQL data type for
+    boolean columns in the schema instead of the boolean one supported by
+    MySQL 5.
 
     It is passed directly to DBIx::Class::DeploymentHandler.
 
@@ -82,6 +104,11 @@ ATTRIBUTES
  database_version
 
     Retrieves schema version from database.
+
+    Dies if version storage is missing from database.
+
+    Returns 0 if version storage is present, but doesn't contain any
+    records.
 
  schema_version
 
@@ -117,7 +144,7 @@ ACKNOWLEDGEMENTS
 
 LICENSE AND COPYRIGHT
 
-    Copyright 2016 Stefan Hornburg (Racke).
+    Copyright 2016-2017 Stefan Hornburg (Racke).
 
     This program is free software; you can redistribute it and/or modify it
     under the terms of the the Artistic License (2.0). You may obtain a
