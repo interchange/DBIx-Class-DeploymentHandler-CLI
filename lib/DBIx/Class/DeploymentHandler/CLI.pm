@@ -368,7 +368,7 @@ None so far.
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2016 Stefan Hornburg (Racke).
+Copyright 2016-2017 Stefan Hornburg (Racke).
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the the Artistic License (2.0). You may obtain a
