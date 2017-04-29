@@ -24,6 +24,7 @@ WriteMakefile(
         'DBIx::Class::DeploymentHandler' => 0,
         'Config::Any' => 0,
         'File::HomeDir' => 0,
+        'Module::Runtime' => 0,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'DBIx-Class-DeploymentHandler-CLI-*' },

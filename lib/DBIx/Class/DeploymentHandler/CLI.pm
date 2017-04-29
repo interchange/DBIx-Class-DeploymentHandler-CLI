@@ -8,6 +8,8 @@ use FindBin qw($Script);
 use Moo;
 use Types::Standard qw/ArrayRef HashRef InstanceOf Str/;
 use DBIx::Class::DeploymentHandler;
+use DBIx::Class::DeploymentHandler::CLI::ConfigReader;
+use Module::Runtime 'require_module';
 
 use namespace::clean;
 
@@ -149,6 +151,16 @@ has args => (
     is => 'ro',
     default => sub {[]},
 );
+
+has config => (
+    isa => InstanceOf['DBIx::Class::DeploymentHandler::CLI::ConfigReader'],
+    is => 'ro',
+    builder => '_config_builder',
+);
+
+sub _config_builder {
+    my $config = DBIx::Class::DeploymentHandler::CLI::ConfigReader->new;
+}
 
 =head2 run
 
@@ -351,6 +363,34 @@ sub _dh_object {
 
     return $dh;
 }
+
+around BUILDARGS => sub {
+    my ( $orig, $class, @args ) = @_;
+    my $arghash = { @args };
+
+    unless ( $arghash->{schema} ) {
+        # build schema based on configuration
+        my $config;
+
+        if ( $arghash->{config} ) {
+            $config = $arghash->{config};
+        }
+        else {
+            my $config_reader = DBIx::Class::DeploymentHandler::CLI::ConfigReader->new;
+            $config = $config_reader->config;
+            push @args, ( config => $config_reader );
+        }
+
+        if ( $config->{schema_class} && $config->{connection} ) {
+            my $schema_module = $config->{schema_class};
+            require_module( $schema_module );
+            my $schema = $schema_module->connect( $config->{connection} );
+            push @args, ( schema => $schema );
+        }
+    }
+
+    return $class->$orig ( @args );
+};
 
 =head1 AUTHOR
 
