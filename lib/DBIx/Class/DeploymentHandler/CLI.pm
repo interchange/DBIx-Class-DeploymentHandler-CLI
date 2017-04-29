@@ -9,6 +9,8 @@ use Moo;
 use Types::Standard qw/ArrayRef HashRef InstanceOf Str/;
 use DBIx::Class::DeploymentHandler;
 
+use namespace::clean;
+
 =head1 NAME
 
 DBIx::Class::DeploymentHandler::CLI - Command line interface for deployment handler
