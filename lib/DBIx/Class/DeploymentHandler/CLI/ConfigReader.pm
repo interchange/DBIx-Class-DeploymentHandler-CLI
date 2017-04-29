@@ -55,7 +55,7 @@ sub _builder_config_paths {
     return [
         $self->get_env_vars,
         ".$config_name",
-        File::HomeDir->my_home . $config_name,
+        File::HomeDir->my_home . '/' . $config_name,
         "/etc/$config_name",
     ];
 }
