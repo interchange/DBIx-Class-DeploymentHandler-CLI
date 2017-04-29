@@ -29,6 +29,12 @@ my $home_path = File::HomeDir->my_home;
     is_deeply($conf_paths, [ 't/dh-cli', '.dh-cli', "$home_path/dh-cli", '/etc/dh-cli' ]);
 }
 
+{
+    my $conf_reader = DBIx::Class::DeploymentHandler::CLI::ConfigReader->new;
+    my $config = $conf_reader->config;
+    is_deeply( $config, { schema_class => 'Interchange6::Schema' } );
+}
+
 sub test_paths {
     my (@args) = @_;
     my $conf_reader = DBIx::Class::DeploymentHandler::CLI::ConfigReader->new( @args );

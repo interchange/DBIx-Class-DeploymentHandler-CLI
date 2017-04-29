@@ -7,6 +7,7 @@ MANIFEST.SKIP
 README
 t/00-load.t
 t/config-reader.t
+t/dh-cli.yaml
 t/manifest.t
 t/pod-coverage.t
 t/pod.t
