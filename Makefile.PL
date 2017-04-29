@@ -16,11 +16,14 @@ WriteMakefile(
     },
     BUILD_REQUIRES => {
         'Test::More' => 0,
+        'Test::Warnings' => 0,
     },
     PREREQ_PM => {
         'Moo' => 2,
         'Type::Tiny' => '0.038',
         'DBIx::Class::DeploymentHandler' => 0,
+        'Config::Any' => 0,
+        'File::HomeDir' => 0,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'DBIx-Class-DeploymentHandler-CLI-*' },
