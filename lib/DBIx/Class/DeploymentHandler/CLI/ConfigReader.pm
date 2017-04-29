@@ -11,6 +11,12 @@ use Types::Common::String qw/NonEmptyStr/;
 
 use namespace::clean;
 
+=head1 NAME
+
+DBIx::Class::DeploymentHandler::CLI::ConfigReader - Config reader class for Deployment Handler CLI.
+
+=cut
+
 has config => (
     is      => 'ro',
     isa     => HashRef,
@@ -66,6 +72,14 @@ sub _builder_config_paths {
         "/etc/$config_name",
     ];
 }
+
+=head1 Methods
+
+=head2 get_env_vars
+
+Returns stem for environment variable C<DBIX_CONFIG_DIR>.
+
+=cut
 
 sub get_env_vars {
     my ($self) = @_;
