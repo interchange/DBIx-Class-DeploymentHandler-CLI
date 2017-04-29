@@ -13,20 +13,20 @@ my $home_path = File::HomeDir->my_home;
     my $conf_paths = test_paths();
 
     isa_ok($conf_paths, 'ARRAY');
-    is_deeply($conf_paths, [ '.dh-cli', "$home_path/dh-cli", '/etc/dh-cli' ]);
+    is_deeply($conf_paths, [ '.dh-cli', "$home_path/.dh-cli", '/etc/dh-cli' ]);
 }
 
 {
     my $conf_paths = test_paths(config_name => 'dh_cli');
     isa_ok($conf_paths, 'ARRAY');
-    is_deeply($conf_paths, [ '.dh_cli', "$home_path/dh_cli", '/etc/dh_cli' ]);
+    is_deeply($conf_paths, [ '.dh_cli', "$home_path/.dh_cli", '/etc/dh_cli' ]);
 }
 
 {
     $ENV{DBIX_CONFIG_DIR} = 't';
     my $conf_paths = test_paths();
     isa_ok($conf_paths, 'ARRAY');
-    is_deeply($conf_paths, [ 't/dh-cli', '.dh-cli', "$home_path/dh-cli", '/etc/dh-cli' ]);
+    is_deeply($conf_paths, [ 't/dh-cli', '.dh-cli', "$home_path/.dh-cli", '/etc/dh-cli' ]);
 }
 
 {
