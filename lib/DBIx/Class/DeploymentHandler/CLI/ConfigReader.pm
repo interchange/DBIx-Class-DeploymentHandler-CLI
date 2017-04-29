@@ -43,9 +43,16 @@ sub _build_config {
     # If we have ->config_files, we'll use those and load_files
     # instead of the default load_stems.
     my %cf_opts = ( use_ext => 1 );
-    return @{$self->config_files}
+    my $configs =  @{$self->config_files}
         ? Config::Any->load_files({ files => $self->config_files, %cf_opts })
         : Config::Any->load_stems({ stems => $self->config_paths, %cf_opts });
+
+    # return configuration from first existing configuration file
+    for my $cf (@$configs) {
+        for my $filename ( keys %$cf ) {
+            return $cf->{$filename};
+        }
+    }
 }
 
 sub _builder_config_paths {
