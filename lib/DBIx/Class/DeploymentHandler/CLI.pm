@@ -152,6 +152,13 @@ has args => (
     default => sub {[]},
 );
 
+=head2 config
+
+Configuration object C<DBIx::Class::DeploymentHandler::CLI::ConfigReader>.
+Created automatically.
+
+=cut
+
 has config => (
     isa => InstanceOf['DBIx::Class::DeploymentHandler::CLI::ConfigReader'],
     is => 'ro',
