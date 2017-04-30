@@ -1,0 +1,15 @@
+#! /usr/bin/env perl
+
+use strict;
+use warnings;
+
+use DBIx::Class::DeploymentHandler::CLI;
+
+my $dh_cli = DBIx::Class::DeploymentHandler::CLI->new(
+    databases => 'MySQL',
+    args => \@ARGV,
+);
+
+if (my $ret = $dh_cli->run) {
+    print $ret, "\n";
+}

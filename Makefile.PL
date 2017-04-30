@@ -10,6 +10,7 @@ WriteMakefile(
     ABSTRACT_FROM    => 'lib/DBIx/Class/DeploymentHandler/CLI.pm',
     LICENSE          => 'artistic_2',
     PL_FILES         => {},
+    EXE_FILES        => [ 'scripts/dh-cli' ],
     MIN_PERL_VERSION => 5.006,
     CONFIGURE_REQUIRES => {
         'ExtUtils::MakeMaker' => 0,
