@@ -26,6 +26,8 @@ WriteMakefile(
         'Config::Any' => 0,
         'File::HomeDir' => 0,
         'Module::Runtime' => 0,
+        # needs copy method
+        'Path::Tiny' => '0.070',
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'DBIx-Class-DeploymentHandler-CLI-*' },

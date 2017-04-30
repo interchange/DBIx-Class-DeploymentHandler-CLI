@@ -10,6 +10,7 @@ use Types::Standard qw/ArrayRef HashRef InstanceOf Str/;
 use DBIx::Class::DeploymentHandler;
 use DBIx::Class::DeploymentHandler::CLI::ConfigReader;
 use Module::Runtime 'require_module';
+use Path::Tiny qw/path/;
 
 use namespace::clean;
 
@@ -178,10 +179,11 @@ Determines method to be run.
 sub run {
     my $self = shift;
     my $cmd;
+    my @params;
 
     # check if we have commandline arguments
-    if (@{$self->args}) {
-        $cmd = $self->args->[0];
+    if (@params = @{$self->args}) {
+        $cmd = shift @params;
     }
     elsif ($Script =~ /^dh-(.*?)$/) {
         $cmd = $1;
@@ -191,7 +193,7 @@ sub run {
         $cmd =~ s/-/_/g;
 
         if ($self->can($cmd)) {
-            return $self->$cmd;
+            return $self->$cmd( @params );
         }
 
         die "No method for command $cmd";
@@ -275,6 +277,111 @@ sub custom_upgrade_directory {
     }
 
     return "sql/_common/upgrade/${db_version}-${schema_version}";
+}
+
+=head2 run_custom
+
+Runs a custom upgrade script.
+
+=cut
+
+sub run_custom {
+    my ($self, $module_name) = @_;
+
+    my $module_upgrade = $self->_load_custom_upgrade_module($module_name);
+
+    my $upgrade = $module_upgrade->new( schema => $self->schema );
+
+    $upgrade->clear;
+    $upgrade->upgrade;
+}
+
+=head2 install_custom
+
+Installs a custom upgrade script.
+
+=cut
+
+sub install_custom {
+    my ($self, $module_name, $before_sql) = @_;
+
+    my $module_upgrade = $self->_load_custom_upgrade_module( $module_name );
+    my $custom_lib = $self->custom_upgrade_directory . '/lib';
+
+    # create directory
+    my $module_path = $module_upgrade;
+    $module_path =~ s%::%/%g;
+
+    my $po = path("$custom_lib/$module_path")->parent;
+    my @dirs = $po->mkpath;
+
+    # copy current module there - Path::Tiny 0.070 required
+    my $lib_path = path("lib/${module_path}.pm");
+
+    $lib_path->copy("$custom_lib/${module_path}.pm");
+
+# now we are creating the DH custom script
+my $custom_script = <<EOF;
+#! /usr/bin/env perl
+
+use strict;
+use warnings;
+
+use FindBin;
+use lib "$custom_lib";
+
+use $module_upgrade;
+
+sub {
+    my \$schema = shift;
+    my \$upgrade = $module_upgrade->new(
+        schema => \$schema
+    );
+
+    \$upgrade->upgrade;
+};
+
+EOF
+
+    # prefix
+    my $script_prefix;
+
+    if ($before_sql) {
+        $script_prefix = '000';
+    }
+    else {
+        $script_prefix = '002';
+    }
+
+    # determine script name
+    my $custom_script_name = $self->custom_upgrade_directory . "/$script_prefix-"
+        . lc(path($module_path)->basename) . '.pl';
+
+    path($custom_script_name)->spew($custom_script);
+
+    return;
+}
+
+sub _load_custom_upgrade_module {
+    my ($self, $module_name) = @_;
+
+    unless ($module_name) {
+        die "Need name of upgrade module.";
+    }
+
+    my $module_upgrade = $module_name;
+
+    # determine module name
+    my $schema_class = ref($self->schema);
+
+    unless ($module_upgrade =~ /::/) {
+        # prefix with proper namespace
+        $module_upgrade = "${schema_class}::Upgrades::$module_name";
+    }
+
+    require_module( $module_upgrade );
+
+    return $module_upgrade;
 }
 
 =head2 prepare_version_storage
