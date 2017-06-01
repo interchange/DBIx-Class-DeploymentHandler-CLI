@@ -6,7 +6,6 @@ use warnings;
 use DBIx::Class::DeploymentHandler::CLI;
 
 my $dh_cli = DBIx::Class::DeploymentHandler::CLI->new(
-    databases => 'MySQL',
     args => \@ARGV,
 );
 

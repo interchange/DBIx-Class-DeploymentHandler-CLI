@@ -481,25 +481,40 @@ sub _dh_object {
 around BUILDARGS => sub {
     my ( $orig, $class, @args ) = @_;
     my $arghash = { @args };
+    my $config;
+    my $config_reader;
+
+    if ( exists $arghash->{config} ) {
+        $config = $arghash->{config};
+    }
 
     unless ( $arghash->{schema} ) {
         # build schema based on configuration
-        my $config;
-
-        if ( $arghash->{config} ) {
-            $config = $arghash->{config};
-        }
-        else {
-            my $config_reader = DBIx::Class::DeploymentHandler::CLI::ConfigReader->new;
+        unless ( $config ) {
+            $config_reader = DBIx::Class::DeploymentHandler::CLI::ConfigReader->new;
             $config = $config_reader->config;
             push @args, ( config => $config_reader );
         }
 
-        if ( $config->{schema_class} && $config->{connection} ) {
+        if ( exists $config->{schema_class} && exists $config->{connection} ) {
             my $schema_module = $config->{schema_class};
             require_module( $schema_module );
             my $schema = $schema_module->connect( $config->{connection} );
             push @args, ( schema => $schema );
+        }
+    }
+
+    unless ( $arghash->{databases} ) {
+        # build list of database based on configuration
+        unless ( $config ) {
+            $config_reader = DBIx::Class::DeploymentHandler::CLI::ConfigReader->new;
+            $config = $config_reader->config;
+            push @args, ( config => $config_reader );
+        }
+
+        if ( exists $config->{databases} ) {
+            warn "Databases are: ", $config->{databases}, "\n";
+            push @args, ( databases => $config->{databases} );
         }
     }
 
