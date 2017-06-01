@@ -32,7 +32,10 @@ my $home_path = File::HomeDir->my_home;
 {
     my $conf_reader = DBIx::Class::DeploymentHandler::CLI::ConfigReader->new;
     my $config = $conf_reader->config;
-    is_deeply( $config, { schema_class => 'Interchange6::Schema' } );
+    is_deeply( $config, {
+        schema_class => 'Interchange6::Schema',
+        databases => [ 'MySQL', 'PostgreSQL' ],
+    } );
 }
 
 sub test_paths {
