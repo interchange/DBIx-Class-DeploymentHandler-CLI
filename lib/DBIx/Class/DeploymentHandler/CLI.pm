@@ -75,6 +75,35 @@ C<dh-cli> script:
         $ENV{DBICDH_DEBUG} = 1;
     }
 
+=head1 Configuration
+
+We are showing examples for YAML configuration files, but
+you can also use any other format supported by L<Config::Any>.
+
+=head2 Values
+
+=over 4
+
+=item schema_class
+
+=item connection
+
+=item databases
+
+=back
+
+=head2 Files
+
+=over 4
+
+=item F<dh-cli.yaml>
+
+=item F<~/.dh-cli.yaml>
+
+=item F</etc/dh-cli.yaml>
+
+=back
+
 =head1 ATTRIBUTES
 
 =head2 schema
