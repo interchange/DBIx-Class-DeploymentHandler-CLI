@@ -464,16 +464,20 @@ sub upgrade {
 }
 
 sub _dh_object {
-    my $self = shift;
+    my ($self, $schema_version) = @_;
     my $dh;
 
-    $dh = DBIx::Class::DeploymentHandler->new(
-        {
-            schema              => $self->schema,
-            databases           => $self->databases,
-            sql_translator_args => $self->sql_translator_args,
-        }
+    my %params = (
+        schema              => $self->schema,
+        databases           => $self->databases,
+        sql_translator_args => $self->sql_translator_args,
     );
+
+    if ($schema_version) {
+        $params{schema_version} = $schema_version;
+    }
+
+    $dh = DBIx::Class::DeploymentHandler->new(\%params);
 
     return $dh;
 }
