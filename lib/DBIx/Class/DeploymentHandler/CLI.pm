@@ -199,6 +199,19 @@ sub _config_builder {
     my $config = DBIx::Class::DeploymentHandler::CLI::ConfigReader->new;
 }
 
+=head2 config_files
+
+Candidates for configuration files to be used instead of the default ones.
+
+Type: array reference.
+
+=cut
+
+has config_files => (
+    isa => ArrayRef,
+    is => 'ro',
+);
+
 =head2 run
 
 Determines method to be run.

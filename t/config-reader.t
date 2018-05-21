@@ -38,6 +38,17 @@ my $home_path = File::HomeDir->my_home;
     } );
 }
 
+{
+    # test config_files accessor
+    my $conf_reader = DBIx::Class::DeploymentHandler::CLI::ConfigReader->new(
+        config_files => [ "t/dh-cli-extra.yaml" ]);
+    my $config = $conf_reader->config;
+    is_deeply( $config, {
+        schema_class => 'Interchange6::Schema',
+        databases => 'PostgreSQL',
+    } );
+}
+
 sub test_paths {
     my (@args) = @_;
     my $conf_reader = DBIx::Class::DeploymentHandler::CLI::ConfigReader->new( @args );

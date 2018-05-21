@@ -9,6 +9,7 @@ scripts/dh-cli
 t/00-load.t
 t/config-reader.t
 t/dh-cli.yaml
+t/dh-cli-extra.yaml
 t/manifest.t
 t/pod-coverage.t
 t/pod.t
