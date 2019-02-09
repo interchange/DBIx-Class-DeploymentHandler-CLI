@@ -232,7 +232,7 @@ sub run {
     }
 
     if (defined $cmd) {
-        $cmd =~ s/-/_/g;
+        $cmd =~ s/\w-/_/g;
 
         if ($self->can($cmd)) {
             return $self->$cmd( @params );
