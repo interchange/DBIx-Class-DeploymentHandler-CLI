@@ -6,7 +6,7 @@ use warnings;
 use Moo;
 use Config::Any;
 use File::HomeDir;
-use Types::Standard qw/ArrayRef HashRef/;
+use Types::Standard qw/ArrayRef HashRef Maybe/;
 use Types::Common::String qw/NonEmptyStr/;
 
 use namespace::clean;
@@ -37,7 +37,7 @@ List of configuration paths.
 
 has config => (
     is      => 'ro',
-    isa     => HashRef,
+    isa     => Maybe[HashRef],
     lazy    => 1,
     builder => '_build_config',
 );
@@ -77,6 +77,8 @@ sub _build_config {
             return $cf->{$filename};
         }
     }
+
+    return undef;
 }
 
 sub _builder_config_paths {
