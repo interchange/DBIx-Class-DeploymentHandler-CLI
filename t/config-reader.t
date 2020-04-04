@@ -4,6 +4,7 @@ use warnings;
 use Test::More;
 use Test::Warnings;
 use File::HomeDir;
+use Data::Dumper;
 
 use DBIx::Class::DeploymentHandler::CLI::ConfigReader;
 
@@ -47,6 +48,15 @@ my $home_path = File::HomeDir->my_home;
         schema_class => 'Interchange6::Schema',
         databases => 'PostgreSQL',
     } );
+}
+
+{
+    # use odd config file name
+    my $conf_reader = DBIx::Class::DeploymentHandler::CLI::ConfigReader->new(
+        config_name => 'nevairbe'
+    );
+    my $config = $conf_reader->config;
+    ok(! defined $config) || diag "Unexpected configuration: ", Dumper($config);
 }
 
 sub test_paths {
