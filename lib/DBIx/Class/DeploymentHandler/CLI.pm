@@ -221,27 +221,29 @@ Determines method to be run.
 sub run {
     my $self = shift;
     my $cmd;
-    my @params;
+    my @params = @{$self->args};
 
-    # check if we have commandline arguments
-    if (@params = @{$self->args}) {
-        $cmd = shift @params;
-    }
-    elsif ($Script =~ /^dh-(.*?)$/) {
+    # check first whether we are using an alias
+    $Script =~ /^dh-(.*?)$/;
+
+    if (defined $1 && $1 ne 'cli') {
         $cmd = $1;
     }
-
-    if (defined $cmd) {
-        $cmd =~ s/\w-/_/g;
-
-        if ($self->can($cmd)) {
-            return $self->$cmd( @params );
-        }
-
-        die "No method for command $cmd";
+    # if we have commandline arguments
+    elsif (@params) {
+        $cmd = shift @params;
+    }
+    else {
+        die "Missing command.\n";
     }
 
-    die "Cannot determine command from $Script.";
+    $cmd =~ s/(\w)-/$1_/g;
+
+    if ($self->can($cmd)) {
+        return $self->$cmd( @params );
+    }
+
+     die "No method for command $cmd";
 }
 
 =head2 version

@@ -15,6 +15,24 @@ use namespace::clean;
 
 DBIx::Class::DeploymentHandler::CLI::ConfigReader - Config reader class for Deployment Handler CLI.
 
+=head1 Description
+
+Searches the configuration file in the following locations:
+
+=over 4
+
+=item C<$ENV{DBIX_CONFIG_DIR}>
+
+=item current directory
+
+=item home directory
+
+=item C</etc> directory
+
+=back
+
+The config accessor will return undefined if a configuration file is absent in all these locations.
+
 =head1 Attributes
 
 =head2 config
