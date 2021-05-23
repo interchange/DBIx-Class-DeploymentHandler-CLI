@@ -546,7 +546,9 @@ around BUILDARGS => sub {
 
         if ( exists $config->{schema_class} && exists $config->{connection} ) {
             my $schema_module = $config->{schema_class};
-            require_module( $schema_module );
+            unless (require_module( $schema_module )) {
+                die "Module $schema_module failed to load."
+            };
             my $schema = $schema_module->connect( $config->{connection} );
             push @args, ( schema => $schema );
         }
