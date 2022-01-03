@@ -68,7 +68,7 @@ underscores (C< _ >) in the function name.
 =head1 BEST PRACTICES
 
 It is often desirable to follow what DeploymentHandler is
-doing, thus we recommendend to turn on debugging in your
+doing, thus we recommend to turn on debugging in your
 C<dh-cli> script:
 
     BEGIN {
