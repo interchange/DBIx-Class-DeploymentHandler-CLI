@@ -20,11 +20,11 @@ DBIx::Class::DeploymentHandler::CLI - Command line interface for deployment hand
 
 =head1 VERSION
 
-Version 0.002
+Version 0.3.0
 
 =cut
 
-our $VERSION = '0.002';
+our $VERSION = '0.3.0';
 
 
 =head1 SYNOPSIS
