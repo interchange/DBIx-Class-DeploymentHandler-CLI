@@ -36,7 +36,7 @@ WriteMakefile(
         resources => {
             repository  => 'https://github.com/interchange/DBIx-Class-DeploymentHandler-CLI.git',
             bugtracker => 'https://github.com/interchange/DBIx-Class-DeploymentHandler-CLI/issues',
-            IRC => 'irc://irc.freenode.net/#interchange',
+            IRC => 'irc://irc.libera.chat/#interchange',
         },
     },
 );
