@@ -563,7 +563,6 @@ around BUILDARGS => sub {
         }
 
         if ( exists $config->{databases} ) {
-            warn "Databases are: ", $config->{databases}, "\n";
             push @args, ( databases => $config->{databases} );
         }
     }
